@@ -14,10 +14,6 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
-        unset($data['created_at'], $data['updated_at']);
-        return $data;
-
         // return [
         //     'id' => $this->id,
         //     'name' => $this->name,
@@ -27,5 +23,10 @@ class ProductResource extends JsonResource
         //     'image' => $this->image,
         //     'category' => $this->category,
         // ];
+
+        $data = parent::toArray($request);
+        // Elimina las claves 'created_at' y 'updated_at' del array $data
+        unset($data['created_at'], $data['updated_at']);
+        return $data;
     }
 }
