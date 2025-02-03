@@ -11,7 +11,7 @@ export default defineConfig({
     plugins: [
         laravel({
             // Archivos de entrada
-            input: ['resources/css/app.css', 'resources/js/app.jsx'],
+            input: ['resources/css/app.css', 'resources/js/app.jsx', 'resources/js/app.js'],
             // Habilita la recarga en caliente
             refresh: true,
         }),

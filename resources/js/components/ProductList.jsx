@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 export default function ProductList() {
     const [products, setProducts] = useState([]);
@@ -12,9 +11,17 @@ export default function ProductList() {
         // Función para obtener los productos desde el endpoint
         const fetchProducts = async (page) => {
             try {
-                const response = await axios.get(`/api/products?page=${page}`);
-                setProducts(response.data.data);
-                setTotalPages(response.data.meta.last_page);
+                const response = await fetch(`/api/products?page=${page}`, { credentials: "include" });
+
+                if (response.redirected) { // Si la respuesta ha sido redirigida
+                    window.location.href = response.url; // Redirige el navegador a la nueva URL
+                    return;
+                }
+
+                const data = await response.json();
+
+                setProducts(data.data);
+                setTotalPages(data.meta.last_page);
                 setLoading(false);
             } catch (err) {
                 setError(err.message);
