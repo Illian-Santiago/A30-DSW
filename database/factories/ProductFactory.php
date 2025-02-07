@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -22,6 +23,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 1, 100),
             'stock' => $this->faker->numberBetween(1, 100),
             'image' => 'https://picsum.photos/200/300?random=' . $this->faker->unique()->numberBetween(1, 1000),
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -39,6 +39,27 @@ export default function ProductList() {
         setCurrentPage(page);
     };
 
+    const deleteProduct = async (productId) => {
+        if (!window.confirm("¿Estás seguro de que quieres eliminar este producto?")) return;
+
+        try {
+            fetch('/sanctum/csrf-cookie', {
+                method: 'GET',
+                credentials: 'include',
+            })
+
+            fetch(`/api/products/${productId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+            })
+
+            alert("Producto eliminado correctamente");
+            setProducts(products.filter(product => product.id !== productId));
+        } catch (error) {
+            console.error("Error eliminando el producto:", error);
+        }
+    };
+
     return (
         <>
             <div className="container mx-auto p-4">
@@ -52,8 +73,13 @@ export default function ProductList() {
                             <p className="text-gray-700 mb-2">{product.description}</p>
                             <p className="text-gray-900 font-bold mb-2">Price: ${product.price}</p>
                             <p className="text-gray-700 mb-2">Stock: {product.stock}</p>
+                            <p className="text-gray-700 mb-2">Autor: {product.user_id}</p>
 
                             <img className="w-full h-48 object-cover rounded" src={product.image} alt={product.name} />
+
+                            <button onClick={() => deleteProduct(product.id)}>
+                                Eliminar
+                            </button>
                         </li>
                     ))}
                 </ul>
